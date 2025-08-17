@@ -237,44 +237,43 @@ class _FullScreenViewerState extends State<FullScreenViewer> {
           constraints: BoxConstraints.expand(
             height: MediaQuery.of(context).size.height,
           ),
-          child: Stack(
-            children: <Widget>[
-              AnimatedPositioned(
-                duration: _animationDuration,
-                curve: Curves.fastOutSlowIn,
-                top: 0 + _positionYDelta,
-                bottom: 0 - _positionYDelta,
-                left: horizontalPosition,
-                right: horizontalPosition,
-                child: InteractiveViewer(
-                  boundaryMargin: const EdgeInsets.all(double.infinity),
-                  panEnabled: false,
-                  child: widget.disableSwipeToDismiss
-                      ? ClipRRect(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: widget.child,
-                        )
-                      : KeymotionGestureDetector(
-                          onStart: (details) => _dragStart(details),
-                          onUpdate: (details) => _dragUpdate(details),
-                          onEnd: (details) => _dragEnd(details),
-                          child: ClipRRect(
+          child: SafeArea(
+            child: Stack(
+              children: <Widget>[
+                AnimatedPositioned(
+                  duration: _animationDuration,
+                  curve: Curves.fastOutSlowIn,
+                  top: 0 + _positionYDelta,
+                  bottom: 0 - _positionYDelta,
+                  left: horizontalPosition,
+                  right: horizontalPosition,
+                  child: InteractiveViewer(
+                    boundaryMargin: const EdgeInsets.all(double.infinity),
+                    panEnabled: false,
+                    child: widget.disableSwipeToDismiss
+                        ? ClipRRect(
                             borderRadius: const BorderRadius.all(
                               Radius.circular(40),
                             ),
                             clipBehavior: Clip.hardEdge,
                             child: widget.child,
+                          )
+                        : KeymotionGestureDetector(
+                            onStart: (details) => _dragStart(details),
+                            onUpdate: (details) => _dragUpdate(details),
+                            onEnd: (details) => _dragEnd(details),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(40),
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: widget.child,
+                            ),
                           ),
-                        ),
+                  ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 60, 30, 0),
+                Align(
+                  alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () => Navigator.of(context).pop(),
                     child: Container(
@@ -284,19 +283,18 @@ class _FullScreenViewerState extends State<FullScreenViewer> {
                         borderRadius: BorderRadius.all(
                           Radius.circular(40),
                         ),
-                        color: Color(0xff222222),
                       ),
                       child: const Center(
                         child: Icon(
-                          CupertinoIcons.clear,
-                          color: Colors.grey,
+                          CupertinoIcons.xmark,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
